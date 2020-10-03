@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "required": [
+      "user_name",
+      "password"
+    ],
+    "properties": {
+      "user_name": {
+        "type": "user_name"
+      },
+      "password": {
+        "type": "password"
+      }
+    },
+    "title": "LoginRequest",
+    "description": "Login Request Model"
+  }

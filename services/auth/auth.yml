@@ -1,0 +1,33 @@
+loginService:
+  handler: services/auth/login.post
+  versionFunctions: false
+  name: loginService
+  package:
+    include:
+      - services/auth/auth.yml
+  events:
+    - http:
+        method: post
+        path: v1/login
+        integration: lambda
+        reqValidatorName: onlyBody
+        requestModels:
+          "application/json": "PostJobRequest"
+        request:
+          template:
+            application/json: ''
+        response:
+          headers:
+            Content-Type: "'application/json'"
+          template: $input.path('$')
+          statusCodes:
+              200:
+                  pattern: '' # Default response method
+                  template: ${file(templates/200.jsonx)}
+              500:
+                  pattern: '.*"statusCode":.*500.*' # JSON response
+                  template: ${file(templates/500.jsonx)}
+                  headers:
+                    Content-Type: "'application/json'"
+  tags:
+    App: ${self:service}
